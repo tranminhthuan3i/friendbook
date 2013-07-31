@@ -1,6 +1,7 @@
 package com.iii.sos;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.iii.favoris.favorisActivity;
 import com.iii.quotations.QuotationActivity;
@@ -42,17 +44,15 @@ public class MainSos extends Activity implements OnClickListener {
 		btnFavoris = (Button) findViewById(R.id.btnFavoris);
 		imgvMore = (ImageView) findViewById(R.id.imgvMore);
 
-		ActionMenuItem settingItem = new ActionMenuItem(ID_SETTING,
-				"Cai dat", getResources()
-						.getDrawable(R.drawable.menu_setting));
-		ActionMenuItem shareItem = new ActionMenuItem(ID_SHARE,
-				"Chia se", getResources()
-						.getDrawable(R.drawable.menu_share));
-		ActionMenuItem contributeItem = new ActionMenuItem(ID_CONTRIBUTE, "Dong gop",
-				getResources().getDrawable(R.drawable.menu_comment));
+		ActionMenuItem settingItem = new ActionMenuItem(ID_SETTING, "Cai dat",
+				getResources().getDrawable(R.drawable.menu_setting));
+		ActionMenuItem shareItem = new ActionMenuItem(ID_SHARE, "Chia se",
+				getResources().getDrawable(R.drawable.menu_share));
+		ActionMenuItem contributeItem = new ActionMenuItem(ID_CONTRIBUTE,
+				"Dong gop", getResources().getDrawable(R.drawable.menu_comment));
 		ActionMenuItem infoItem = new ActionMenuItem(ID_INFO, "Thong tin",
 				getResources().getDrawable(R.drawable.menu_info));
-		
+
 		quickAction = new QuickMenuAction(MainSos.this,
 				QuickMenuAction.VERTICAL);
 		quickAction.addActionItem(settingItem);
@@ -68,6 +68,48 @@ public class MainSos extends Activity implements OnClickListener {
 		btnQuotation.setOnClickListener(this);
 		btnFavoris.setOnClickListener(this);
 		imgvMore.setOnClickListener(this);
+
+		// Set listener for action item clicked
+		quickAction
+				.setOnActionItemClickListener(new QuickMenuAction.OnActionItemClickListener() {
+					@Override
+					public void onItemClick(QuickMenuAction source, int pos,
+							int actionId) {
+						if (actionId == ID_SHARE) {
+							Toast.makeText(MainSos.this, "ID_LANGUAGE",
+									Toast.LENGTH_SHORT).show();
+							createDialogShare();
+						}
+
+					}
+				});
+
+	}
+
+	private void createDialogShare() {
+		final Dialog dialog = new Dialog(MainSos.this);
+		dialog.setContentView(R.layout.facebook_layout);
+		dialog.setCancelable(false);
+		Button btnLogin = (Button) dialog.findViewById(R.id.btnLogin);
+		btnLogin.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(MainSos.this, "Login",
+						Toast.LENGTH_LONG).show();
+				
+			}
+		});
+		Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+		btnCancel.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
 
 	}
 
@@ -104,13 +146,12 @@ public class MainSos extends Activity implements OnClickListener {
 			startActivity(itentFavoris);
 			break;
 		case R.id.imgvMore:
-			btnKey =3;
+			btnKey = 3;
 			break;
 
 		default:
 			break;
 		}
-		
 
 	}
 
